@@ -1,0 +1,81 @@
+
+.ry-cryptarithm {
+  text-transform: uppercase;
+}
+
+.ry-cryptarithm-displays {
+  text-align: right;
+}
+/*PUZZLE*/
+.ry-cryptarithm-operation {
+  display: inline-block;
+  padding: 10px;
+  text-align: right;
+}
+.ry-cryptarithm-operation .ry-cryptarithm-term {
+  padding:5px;
+}
+.ry-cryptarithm-operation .ry-cryptarithm-result {
+  padding: 5px;
+  color: red;
+  border-top: 1px solid #ccc;
+}
+.ry-cryptarithm-operation.solved .ry-cryptarithm-result {
+  color: green;
+}
+
+/*Operations*/
+
+.ry-cryptarithm-operation .ry-cryptarithm-term 
++ .ry-cryptarithm-term:before {
+  content: "";
+  padding: 5px;
+  color: green;
+  font-weight: bold;
+  display: inline-block;
+} 
+
+.ry-cryptarithm-operation.ry-cryptarithm-addition .ry-cryptarithm-term 
++ .ry-cryptarithm-term:before {
+  content: "+";
+} 
+
+.ry-cryptarithm-operation.ry-cryptarithm-subtraction .ry-cryptarithm-term 
++ .ry-cryptarithm-term:before {
+  content: "-";
+} 
+
+
+/*KEYS*/
+.ry-cryptarithm-keys { 
+  text-align: center;
+}
+.ry-cryptarithm-keys .ry-cryptarithm-key {
+  display: inline-block;
+  border: 1px solid #333;
+  background-color: white;
+  margin: 5px;
+}
+
+.ry-cryptarithm-key label {
+  display: inline-block;
+  padding: 5px 10px;
+}
+
+.ry-cryptarithm-key input {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: none;
+  text-align: center;
+  background: none;
+}
+
+.ry-cryptarithm-key input:focus {
+  outline-width: 0;
+}
+
+.ry-cryptarithm-reset  {
+  display: block;
+  margin: 10px auto;
+}
