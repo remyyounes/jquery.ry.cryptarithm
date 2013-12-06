@@ -72,6 +72,9 @@
         'keypress .ry-cryptarithm-shell': this._handleHotkeys,
         'keypress .ry-cryptarithm-shell input': this._handleInput,
         'keyup .ry-cryptarithm-shell input': this._handleDelete,
+        'blur .ry-cryptarithm-key': this._handleFocus,
+        'focus .ry-cryptarithm-key': this._handleFocus,
+        'click .ry-cryptarithm-key': this._handleKeyClick,
         'click .ry-cryptarithm-reset': this._unassignKeys,
         'cryptarithmassignkey': this._updateKeys,
         'cryptarithmunassignkey': this._updateKeys
@@ -182,12 +185,38 @@
 
     // focus() corresponding input when an alpha key is pressed
     _handleHotkeys: function (e) {
-      var letter = String.fromCharCode(e.which);
-      var input = this.keypad.find("[name='"+letter+"']");
-      if(input.length !== 0) {
-        input.focus();
+      var letter = String.fromCharCode(e.which).toLowerCase();
+      // discard non-alphanumerical keypresses
+      if ( !/^[a-z0-9]+/.test(letter) ) { return; }
+      // try to focus a key's input
+      // if input is found we stop event bubbling.
+      if(this._focusKey(letter)) {
         e.preventDefault();
       }
+    },
+
+    _focusKey: function (letter) {
+      var input = this.keypad
+        .find(".ry-cryptarithm-key[data-key='"+letter+"'] input");
+      if(input.length !== 0) {
+        input.focus();
+        return true;
+      }
+      return false;
+    },
+
+    _handleFocus: function (e) {
+      var key = $(e.currentTarget);
+      if(e.type === "focusout") {
+        key.removeClass("active");
+      } else{
+        key.addClass("active");
+      }
+    },
+
+    _handleKeyClick: function (e) {
+      var key = $(e.currentTarget);
+      this._focusKey(key.attr("data-key"));
     },
 
     // handle delete and backspace keys
@@ -206,9 +235,7 @@
       var input = $(e.target);
       // ignore non-alphanumerical inputs
       if ( !/^[0-9]+/.test(num) ) { 
-        if ( !/^[a-zA-Z]+/.test(num) ) { 
-          e.preventDefault();
-        }
+        e.preventDefault();
         return; 
       }
 
@@ -319,8 +346,9 @@
       var container = this.keypad;
       var widget = this;
       $.each( alphabet, function(i, letter) {
-        var key = el.clone().addClass("ry-cryptarithm-key ui-corner-all");
-        ell.clone().text(letter).attr( "for",letter).appendTo(key)
+        var key = el.clone().addClass("ry-cryptarithm-key ui-corner-all")
+          .attr("data-key", letter);
+        ell.clone().text(letter).attr( "for", letter).appendTo(key)
         .addClass("ui-widget-header ui-corner-all");
         eli.clone().attr("name", letter).appendTo(key);
         key.appendTo(container);
