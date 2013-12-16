@@ -335,6 +335,9 @@
     _createWrapper: function () {
       var el = $('<div/>');
       this.shell = el.clone().addClass("ry-cryptarithm-shell ui-corner-all ui-widget-content");
+      // enables hotkeys from shell div.
+      // not sure if this is a good idea. especially hardcoding 0... need to investigate.
+      this.shell.attr("tabindex", "0");
       this.displays = el.clone().addClass("ry-cryptarithm-displays");
       this.displays.appendTo(this.shell);
       this.puzzleDisplay = el.clone().addClass("ry-cryptarithm-puzzle").appendTo(this.displays);

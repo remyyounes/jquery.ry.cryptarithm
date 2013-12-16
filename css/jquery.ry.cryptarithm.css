@@ -3,6 +3,10 @@
   text-transform: uppercase;
 }
 
+.ry-cryptarithm-shell {
+  outline: none;
+}
+
 .ry-cryptarithm-displays {
   text-align: right;
 }
