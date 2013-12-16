@@ -25,16 +25,18 @@
     "addition": {
       className: "addition",
       computeMethod: function (terms) {
-        return terms.reduce( 
-          function( prev, current ){ return prev + current }
-      )}
+        for (var i = 1, res = terms[0]; i < terms.length; i++)
+          res += terms[i];
+        return res;
+      }
     },
     "subtraction": {
       className: "subtraction",
       computeMethod: function (terms) {
-        return terms.reduce( 
-          function( prev, current ){ return prev - current }
-      )}
+        for (var i = 1, res = terms[0]; i < terms.length; i++)
+          res -= terms[i];
+        return res;
+      }
     }
   };
 
