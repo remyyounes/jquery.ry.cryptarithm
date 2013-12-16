@@ -186,8 +186,8 @@
     // focus() corresponding input when an alpha key is pressed
     _handleHotkeys: function (e) {
       var letter = String.fromCharCode(e.which).toLowerCase();
-      // discard non-alphanumerical keypresses
-      if ( !/^[a-z0-9]+/.test(letter) ) { return; }
+      // discard non-alpha keypresses
+      if ( !/^[a-z]+/.test(letter) ) { return; }
       // try to focus a key's input
       // if input is found we stop event bubbling.
       if(this._focusKey(letter)) {
@@ -231,23 +231,25 @@
 
     // Validates user input and tell widget a new key is available
     _handleInput: function (e) {
-      var num = String.fromCharCode(e.which);
+      var num = String.fromCharCode(e.which).toLowerCase();
       var input = $(e.target);
-      // ignore non-alphanumerical inputs
-      if ( !/^[0-9]+/.test(num) ) { 
+      if ( /^[0-9]+/.test(num) ) {
+        // signal new valid key
+        this._trigger("assignkey", null, {
+            "letter": input.attr("name"),
+            "previous": input.val(),
+            "value": num
+        });
+        // constrain input value to 1 character
+        if(input.val().length > 0) { input.val(""); }
+
+      }else{
+      // Handle non-alphanumerical inputs
         e.preventDefault();
-        return; 
+        if (!/^[a-z]+/.test(num)) {
+          e.stopPropagation();
+        }
       }
-
-      // signal new valid key
-      this._trigger("assignkey", null, {
-          "letter": input.attr("name"),
-          "previous": input.val(),
-          "value": num
-      });
-
-      // constrain input value to 1 character
-      if(input.val().length > 0) { input.val(""); }
 
     },
 
